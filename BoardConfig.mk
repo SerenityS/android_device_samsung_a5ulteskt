@@ -20,14 +20,13 @@ DEVICE_PATH := device/samsung/a5ulteskt
 TARGET_SPECIFIC_HEADER_PATH := $(DEVICE_PATH)/include
 
 # Kernel
-TARGET_KERNEL_CONFIG := cyanogenmod_a5ulteskt_defconfig
+TARGET_KERNEL_CONFIG := msm8916_sec_defconfig VARIANT_DEFCONFIG=msm8916_sec_a5u_eur_defconfig SELINUX_DEFCONFIG=selinux_defconfig
 
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # Camera
-BOARD_CAMERA_SENSORS := imx135 imx214
+BOARD_USES_LEGACY_MMAP := true
 TARGET_USE_VENDOR_CAMERA_EXT := true
-USE_DEVICE_SPECIFIC_CAMERA := true
 
 # CMHW
 BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/cmhw/src
@@ -49,8 +48,14 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2516582400
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12608057344
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-# Video
-TARGET_HAVE_SIGNED_VENUS_FW := true
+BOARD_SEPOLICY_DIRS += \
+    device/samsung/a5ulteskt/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    file.te \
+    system_server.te \
+    file_contexts
+
 
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
